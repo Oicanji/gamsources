@@ -2,14 +2,17 @@ from flask import Flask
 import os
 from flask_login import LoginManager
 
-from .base.user import *
+from .db import db
+
+from .base import *
 
 # from .auth import auth
 # from .views import views
 
 DB_NAME = "gamsources.db"
 
-__SECRET_KEY = os.getenv("SECRET_KEY")
+#os.getenv("SECRET_KEY")
+__SECRET_KEY = "segredo"
 
 app = Flask(__name__)
 
@@ -21,15 +24,16 @@ def create_app():
 
     app.config['SECRET_KEY'] = __SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    
-    # db.init_app(app)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.init_app(app)
 
     # app.register_blueprint(auth, url_prefix='/login')
 
     # app.register_blueprint(views, url_prefix='/')
 
-    # with app.app_context():
-    #     db.create_all()
+    with app.app_context():
+        db.create_all()
 
     login_manager = LoginManager()
 
