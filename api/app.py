@@ -14,20 +14,25 @@ login_manager.init_app(app)
 
 jwt = JWTManager(app)
 
-# Importar o modelo de usuário
 from models.user import User
 
 @login_manager.user_loader
 def load_user(user_id):
-    with app.app_context():  # Entre no contexto da aplicação
+    with app.app_context():
         return User.query.get(int(user_id))
     
 @app.route('/')
 def home():
     return render_template('pages/home.html', data={"BASE_URL": BASE_URL, "BASE_PORT": BASE_PORT})
 
-from routes.router_user import user_blueprint  # Importe o blueprint
-app.register_blueprint(user_blueprint, url_prefix='/user')  # Registre o blueprint
+# Routes
+from routes.router_user import user_blueprint  
+from routes.router_collection import collection_blueprint
+from routes.router_tag import tag_blueprint
+
+app.register_blueprint(user_blueprint, url_prefix='/user') 
+app.register_blueprint(collection_blueprint, url_prefix='/collection')
+app.register_blueprint(tag_blueprint, url_prefix='/tag')
 
 if __name__ == '__main__':
     with app.app_context():  # Entre no contexto da aplicação

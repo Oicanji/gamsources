@@ -10,6 +10,8 @@ if not os.path.exists(".env"):
         f.write("API_ONLY_MODE=false\n")
         f.write("BASE_URL=127.0.0.1\n")
         f.write("BASE_PORT=5000\n")
+        f.write("JWT_ACCESS_TOKEN_EXPIRES=3600\n")
+        f.write("JWT_REFRESH_TOKEN_EXPIRES=3600\n")
 
 # Load the .env file
 load_dotenv()
@@ -21,3 +23,5 @@ SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI", "sqlite:///gamsou
 API_ONLY_MODE = os.getenv("API_ONLY_MODE", "false")
 BASE_URL = os.getenv("BASE_URL", "127.0.0.1")
 BASE_PORT = int(os.getenv("BASE_PORT", 5000))
+JWT_ACCESS_TOKEN_EXPIRES  = os.getenv("JWT_ACCESS_TOKEN_EXPIRES", 3600)
+JWT_REFRESH_TOKEN_EXPIRES = os.getenv("JWT_REFRESH_TOKEN_EXPIRES", 3600)

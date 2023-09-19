@@ -1,9 +1,7 @@
 # gamsources
 TCC from System of Internet
 
-Hello my name is Ignacio aka.Oicanji, I'm a student of System of Internet in Institute Federal of Saint Catarina,
-here is project beggin in my "senior thesis" in course, i'm using Flask and Javascript to make a web application
-to help a game devs with a game sources, like sprites, sounds, musics, etc.
+Greetings my name is Ignacio also known as Oicanji, I am a student of Systems for internet on the Federal Institute of Santa Catarina in Brazil. In this repo you can find the beginning of my Undergraduate thesis project, utilizing Flask and Javascript for creating a web application for assisting game developers on creating their game resources such as sprites, sound effects and music.
 
 If you like this project, please, help me with a star, and if you want, you can help me with a pull request.
 
