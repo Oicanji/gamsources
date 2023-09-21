@@ -30,9 +30,36 @@ def get_tag(id):
 def get_tags(offset, limit):
     console.log("Get tags method called")
     try:
-        tags = Tag.query.order_by(Tag.id).limit(0).offset(12).all()
-        print(Tag.query.order_by(Tag.id).all())
+        tags = Tag.query.order_by(Tag.id).limit(offset).offset(limit).all()
         return tags
+    except Exception as e:
+        console.error(e)
+        raise e
+    
+def edit_tag(id, color, name):
+    console.log("Edit tag method called")
+    try:
+        tag = Tag.query.filter_by(id=id).first()
+        
+        tag.color = color if color else tag.color
+        tag.name = name if name else tag.name
+        
+        db.session.commit()
+        
+        return tag
+    except Exception as e:
+        console.error(e)
+        raise e
+    
+def delete_tag(id):
+    console.log("Delete tag method called")
+    try:
+        tag = Tag.query.filter_by(id=id).first()
+        
+        db.session.delete(tag)
+        db.session.commit()
+        
+        return tag
     except Exception as e:
         console.error(e)
         raise e

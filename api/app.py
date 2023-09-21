@@ -29,10 +29,16 @@ def home():
 from routes.router_user import user_blueprint  
 from routes.router_collection import collection_blueprint
 from routes.router_tag import tag_blueprint
+from routes.router_tag_collection import tag_collection_blueprint
+from routes.router_social import social_blueprint
+from routes.router_social_media import social_media_blueprint
 
 app.register_blueprint(user_blueprint, url_prefix='/user') 
 app.register_blueprint(collection_blueprint, url_prefix='/collection')
+app.register_blueprint(tag_collection_blueprint, url_prefix='/collection/tag')
 app.register_blueprint(tag_blueprint, url_prefix='/tag')
+app.register_blueprint(social_blueprint, url_prefix='/social')
+app.register_blueprint(social_media_blueprint, url_prefix='/social_media')
 
 if __name__ == '__main__':
     with app.app_context():  # Entre no contexto da aplicação

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from controllers.controller_collection import add_collection, delete_collection, edit_collection, get_collection, get_collections, get_user_collections
+from controllers.controller_collection import add_collection, delete_collection, edit_collection, get_collection, get_collections, get_user_collections, is_my_collection_or_iam_adm
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from utils.dict import list_object_to_dict, object_to_dict
@@ -65,6 +65,9 @@ def update():
         
         data = request.get_json()
         
+        if is_my_collection_or_iam_adm(user_id, data.get('id')) == False:
+            return jsonify({"msg": "You don't have permission to edit this collection."}), 400
+        
         edit_collection(data, user_id)
         
         return jsonify({"msg": "Collection updated successfully."}), 200
@@ -79,7 +82,10 @@ def delete():
         
         collection_id = request.args.get('id')
         
-        delete_collection(collection_id, user_id)
+        if is_my_collection_or_iam_adm(user_id, collection_id) == False:
+            return jsonify({"msg": "You don't have permission to delete this collection."}), 400
+        
+        delete_collection(collection_id)
         
         return jsonify({"msg": "Collection deleted successfully."}), 200
     except Exception as e:

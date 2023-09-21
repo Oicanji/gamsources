@@ -55,13 +55,10 @@ def get_collections(limit=25, offset=0, order_by='', order='asc'):
         console.error(e)
         raise e
     
-def edit_collection(data, user_id):
+def edit_collection(data):
     console.log("Edit collection method called")
     try:
         collection = Collection.query.filter_by(id=data.get('id')).first()
-        
-        if collection.user_id != user_id:
-            raise Exception('User is not the owner of this collection')
         
         collection.name = data.get('name')
         collection.contains = data.get('contains')
@@ -73,18 +70,10 @@ def edit_collection(data, user_id):
         console.error(e)
         raise e
 
-def delete_collection(id, user_id):
+def delete_collection(id):
     console.log("Delete collection method called")
     try:
         collection = Collection.query.filter_by(id=id).first()
-        
-        user_is_admin = User.query.filter_by(id=user_id).first().is_admin
-        
-        if not user_is_admin:
-            if collection.user_id != user_id:
-                raise Exception('User is not the owner of this collection')
-        elif user_is_admin and collection.user_id != user_id:
-            console.info('User admin deleting collection from another user')
         
         db.session.delete(collection)
         db.session.commit()
@@ -94,3 +83,14 @@ def delete_collection(id, user_id):
         console.error(e)
         raise e
 
+def is_my_collection_or_iam_adm(user_id, collection_id):
+    console.log("Is my collection or I am admin method called")
+    try:
+        collection = Collection.query.filter_by(id=collection_id).first()
+        if collection.id == user_id:
+            return True
+        user = User.query.filter_by(id=user_id).first()
+        return user.is_admin
+    except Exception as e:
+        console.error(e)
+        raise e
