@@ -1,14 +1,15 @@
-from flask import Blueprint, jsonify, redirect, url_for, request
-from flask_login import login_user, logout_user
+from flask import Blueprint, jsonify, request
 from routes.router_utils import render
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt, jwt_required, get_jwt_identity, unset_jwt_cookies
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from extensions import db
+from extensions import db, jwt
 from models.user import User
 from flask_jwt_extended import create_access_token
 
 user_blueprint = Blueprint('user', __name__)
+
+blocklist = set()
 
 @user_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
@@ -25,18 +26,17 @@ def register():
         if existing_user:
             return jsonify({"msg": "Nome de usuário já existe. Escolha outro."}), 400
         
-        hashed_password = generate_password_hash(password, method='sha256')
+        hashed_password = generate_password_hash(password, method='scrypt')
 
         new_user = User(username=username, password=hashed_password, email=email)
         
         db.session.add(new_user)
         db.session.commit()
-        
-        login_user(new_user)
     
-        access_token = create_access_token(identity=new_user.id)
+        access_token = create_access_token(identity=str(new_user.id))
+        refresh_token = create_refresh_token(str(new_user.id))
 
-        return jsonify({"access_token": access_token}), 201
+        return jsonify({"access_token": access_token, "refresh_token": refresh_token}), 201
     return render('register.html')
 
 @user_blueprint.route('/login', methods=['GET', 'POST'])
@@ -57,20 +57,37 @@ def login():
             
             if user and check_password_hash(user.password, password):
                 access_token = create_access_token(identity=user.id)
+                refresh_token = create_refresh_token(user.id)
                 
-                login_user(user)
-                
-                return jsonify(access_token=access_token), 200
+                return jsonify(access_token=access_token, refresh_token=refresh_token), 200
             else:
-                return jsonify({'Credenciais inválidas. Tente novamente.'}), 401
+                return jsonify({"msg": "Bad username or password"}), 401
         except Exception as e:
             return jsonify({"msg": "Error logging in.", "error": str(e)}), 500
     return render('login.html')
 
-@user_blueprint.route('/logout')
+
+@user_blueprint.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    return jsonify(access_token=access_token)
+
+@user_blueprint.route('/logout', methods=['GET'])
 @jwt_required()
 def logout():
-    current_user_id = get_jwt_identity()
-    print(current_user_id)
-    logout_user()
-    return redirect(url_for('user.register'))
+    try:
+        token = get_jwt()
+        jti = token['jti']
+        blocklist.add(jti)
+        unset_jwt_cookies 
+
+        return jsonify({"msg": "Successfully logged out"}), 200
+    except Exception as e:
+        return jsonify({"msg": "Error logging out.", "error": str(e)}), 500
+
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blocklist(_, jwt_header):
+    jti = jwt_header['jti']
+    return jti in blocklist

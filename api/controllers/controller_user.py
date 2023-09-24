@@ -9,15 +9,8 @@ def is_admin(user_id):
     @param user_id: User id
     @return: True if user is admin, False if not
     """
-    console.log('Check if admin method called')
-    try:
-        user = User.query.filter_by(id=user_id).first()
-        if not user:
-            raise Exception('User not found')
-        print(user)
-        print(object_to_dict(user))
-        print(user.username)
-        return user.is_admin
-    except Exception as e:
-        console.error(e)
-        raise e
+    
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        raise Exception('User not found')
+    return user.is_admin

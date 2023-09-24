@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required
 from controllers.controller_tag import add_tag, delete_tag, edit_tag, get_tag, get_tags
 from models.user import User
 

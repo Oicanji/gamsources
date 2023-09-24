@@ -755,7 +755,7 @@
 					"response": []
 				},
 				{
-					"name": "delete_social Copy",
+					"name": "delete_social",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -791,13 +791,307 @@
 			]
 		},
 		{
+			"name": "credits",
+			"item": [
+				{
+					"name": "add_credits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expression\":\"This project are create by [1], and [2], using a plataform [3]\",\r\n    \"add1\":\"Hideo Kojima\",\r\n    \"add2\":\"Akira Toriyama\",\r\n    \"add3\":\"blender\"\r\n    //\"license\":\"CC BY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/credits/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_credits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/credits/get?id=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit_credits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"2\",\r\n    \"expression\":\"This project are create by [1], and [2], using a plataform [3]\",\r\n    \"add1\":\"Carlos El Topo Que Gira\",\r\n    \"add2\":\"Todd Howard\",\r\n    \"add3\":\"godot\"\r\n    //\"license\":\"CC BY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/credits/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_credits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/credits/delete?id=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "item",
+			"item": [
+				{
+					"name": "add_item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expression\":\"This project are create by [1], and [2], using a plataform [3]\",\r\n    \"add1\":\"Hideo Kojima\",\r\n    \"add2\":\"Akira Toriyama\",\r\n    \"add3\":\"blender\"\r\n    //\"license\":\"CC BY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/item/add",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"item",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_credits Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/credits/get?id=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit_credits Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"2\",\r\n    \"expression\":\"This project are create by [1], and [2], using a plataform [3]\",\r\n    \"add1\":\"Carlos El Topo Que Gira\",\r\n    \"add2\":\"Todd Howard\",\r\n    \"add3\":\"godot\"\r\n    //\"license\":\"CC BY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/credits/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_credits Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/credits/delete?id=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"credits",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "login",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"user\":\"user\",\r\n    \"password\":\"password123\"\r\n}",
+					"raw": "{\r\n    \"user\":\"admin\",\r\n    \"password\":\"password123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -843,6 +1137,71 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{refresh_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTQyMjIzOCwianRpIjoiM2JjYTMzMTktOTk5My00N2QyLTg4NWEtZTI2YmY4YjVlMjkwIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOjEsIm5iZiI6MTY5NTQyMjIzOCwiZXhwIjoxNjk1NDI1ODM4fQ.2T83U2XOUSpsIx7JAdDOxvafABpBW3qV-sQxyDcngUw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/user/refresh",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NTQyNzQ1OCwianRpIjoiODNhZjQ0MGMtYzRiNi00Y2Q4LWFmMjItNmZiYzc3N2VlODIwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjk1NDI3NDU4LCJleHAiOjE2OTU0MzEwNTh9.6d_z4kQvvcq3GyE6mqkf9fdOMBpZPl5zQNVSbN5VLPw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/user/logout",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -854,33 +1213,65 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"let host = pm.collectionVariables.get(\"host\");  ",
-					"let username = pm.collectionVariables.get(\"username\");  ",
-					"let password = pm.collectionVariables.get(\"password\");  ",
-					"  ",
-					"let body = JSON.stringify({  ",
-					"\t\"user\": username,  ",
-					"\t\"password\": password  ",
-					"})  ",
-					" ",
-					"const postRequest = {  ",
-					"\turl: host + '/user/login',  ",
-					"\tmethod: 'POST',  ",
-					"\ttimeout: 0,  ",
-					"\theader: {  ",
-					"\t\t\"Content-Type\": \"application/json\",",
-					"\t\t\"Accept\": \"*/*\",",
-					"\t},  ",
-					"\tbody: body",
-					"};  ",
+					"let host = pm.collectionVariables.get(\"host\");",
+					"let username = pm.collectionVariables.get(\"username\");",
+					"let password = pm.collectionVariables.get(\"password\");",
+					"let refreshToken = pm.collectionVariables.get(\"refresh_token\"); // Nova variável para o refresh_token",
 					"",
-					"pm.sendRequest(postRequest, function (err, res) {  ",
-					"\tconsole.log(\"Login Response:\",  res);  ",
-					"\tif (err) console.log(\"Error:\", err)  ",
-					"\t\tlet response = res.json()",
+					"const body = {",
+					"    \"user\": username,",
+					"    \"password\": password",
+					"};",
+					"",
+					"// Função para fazer login e obter um novo access_token",
+					"function doLogin() {",
+					"    pm.sendRequest({",
+					"        url: host + '/user/login',",
+					"        method: 'POST',",
+					"        header: {",
+					"            \"Content-Type\": \"application/json\",",
+					"            \"Accept\": \"*/*\"",
+					"        },",
+					"        body: JSON.stringify(body)",
+					"    }, function (err, res) {",
+					"        if (err) {",
+					"            console.log(\"Error:\", err);",
+					"            return;",
+					"        }",
+					"        let response = res.json();",
+					"        pm.collectionVariables.set('authorization_token', response.access_token);",
+					"        pm.collectionVariables.set('refresh_token', response.refresh_token);",
+					"    });",
+					"}",
+					"",
+					"// Função para fazer a solicitação de refresh_token",
+					"function doRefresh() {",
+					"    if (!refreshToken) {",
+					"        doLogin(); // Se ocorrer um erro, faça login novamente",
+					"        return;",
+					"    }",
+					"    pm.sendRequest({",
+					"        url: host + '/user/refresh',",
+					"        method: 'POST',",
+					"        header: {",
+					"            \"Content-Type\": \"application/json\",",
+					"            \"Accept\": \"*/*\",",
+					"            \"Authorization\": \"Bearer \" + refreshToken // Use o refreshToken",
+					"        }",
+					"    }, function (err, res) {",
+					"        let response = res.json();",
+					"        if (err || response.msg == \"Token has expired\" || response.msg == \"Not enough segments\") {",
+					"            console.log(\"Error:\", msg);",
+					"            doLogin(); // Se ocorrer um erro, faça login novamente",
+					"            return;",
+					"        }",
 					"        let authorization = response.access_token;",
-					"\t\tpm.collectionVariables.set('authorization_token', authorization);",
-					"    });"
+					"        pm.collectionVariables.set('authorization_token', authorization);",
+					"    });",
+					"}",
+					"",
+					"// Faça a solicitação de refresh_token",
+					"doRefresh();"
 				]
 			}
 		},
@@ -897,7 +1288,7 @@
 	"variable": [
 		{
 			"key": "username",
-			"value": "user",
+			"value": "admin",
 			"type": "string"
 		},
 		{
@@ -913,6 +1304,11 @@
 		{
 			"key": "authorization_token",
 			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

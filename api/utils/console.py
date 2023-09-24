@@ -4,18 +4,30 @@ from datetime import datetime
 
 
 class console():
+    
+    def date(self):
+        return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    
+    def construct(self, type, msg):
+        pprint("["+self.date()+"] "+type+" | "+str(msg))
+
+    
     @staticmethod
-    def log(text):
-        pprint("["+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"] LOG | "+text)
+    def log(msg):
+        new_log = console()
+        new_log.construct("LOG", msg)
         
     @staticmethod
-    def warn(text):
-        pprint("\033[93m["+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"] WARN | "+text+"\033[0m")
+    def warn(msg):
+        new_log = console()
+        new_log.construct("WARN", msg)
+        
+    @staticmethod
+    def info(msg):
+        new_log = console()
+        new_log.construct("INFO", msg)
 
     @staticmethod
-    def info(text):
-        pprint("\033[92m["+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"] INFO | "+text+"\033[0m")
-
-    @staticmethod
-    def error(text):
-        pprint("\033[91m["+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"] ERROR | "+text+"\033[0m")
+    def error(msg):
+        new_log = console()
+        new_log.construct("ERROR", msg)

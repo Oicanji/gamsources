@@ -21,32 +21,26 @@ def add_social(name, icon):
     
 def edit_social(id, name, icon):
     console.log("Edit social method called")
-    try:
-        social = Social.query.filter_by(id=id).first()
-        if not social:
-            raise Exception('Social not found')
         
-        social.name = name if name else social.name
-        social.icon = icon if icon else social.icon
-        
-        db.session.commit()
-        
-        return social
-    except Exception as e:
-        console.error(e)
-        raise e
+    social = Social.query.filter_by(id=id).first()
+    if not social:
+        raise Exception('Social not found')
+    
+    social.name = name if name else social.name
+    social.icon = icon if icon else social.icon
+    
+    db.session.commit()
+    
+    return social
     
 def delete_social(id):
     console.log("Delete social method called")
-    try:
-        social = Social.query.filter_by(id=id).first()
-        if not social:
-            raise Exception('Social not found')
-        
-        db.session.delete(social)
-        db.session.commit()
-        
-        return social
-    except Exception as e:
-        console.error(e)
-        raise e
+    
+    social = Social.query.filter_by(id=id).first()
+    if not social:
+        raise Exception('Social not found')
+    
+    db.session.delete(social)
+    db.session.commit()
+    
+    return social
