@@ -11,7 +11,7 @@ First, you need to install the requirements, you can do this with this command:
 ```
 pip install -r requirements.txt
 ```
-After this, you need to run the app.py file, you can do this with this command:
+After this, you need to run the the project folder, you can do this with this command:
 ```
 python api
 ```
