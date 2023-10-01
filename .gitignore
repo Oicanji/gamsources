@@ -3,3 +3,6 @@ enviroment
 .env
 anime_catgirls.py
 instance
+.expo
+node_modules
+bun.lockb
