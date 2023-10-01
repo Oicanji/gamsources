@@ -9,19 +9,19 @@ from utils.generate import generate
 tag_blueprint = Blueprint('tag', __name__)
 
 @tag_blueprint.route('/add', methods=['POST'])
-@jwt_required()
+#@jwt_required()
 def add():
     try:
-        user_id = get_jwt_identity()
+        #user_id = get_jwt_identity()
         
         data = request.get_json()
         name = data.get('name')
         color = data.get('color', generate.hex())
         
         #apenas usuarios admin podem criar tags
-        user = User.query.filter_by(id=user_id).first()
-        if not user.is_admin:
-            return jsonify({"msg": "You don't have permission to create tags."}), 400
+        # user = User.query.filter_by(id=user_id).first()
+        # if not user.is_admin:
+        #     return jsonify({"msg": "You don't have permission to create tags."}), 400
         
         new_tag = add_tag(name, color)
         

@@ -16,6 +16,17 @@ After this, you need to run the the project folder, you can do this with this co
 python api
 ```
 
+# How to run EXPO-APP (React Natives)
+
+First, you need to install the requirements, you can do this with this command:
+```
+npm install
+```
+After this, you need to run the the project folder, you can do this with this command:
+```
+npm run web
+```
+
 # My contacts
 If you want to learn more about me, visit my website: https://oicanji.com
 

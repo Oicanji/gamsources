@@ -1,12 +1,20 @@
 from sqlalchemy import asc, desc
-from api.models.credits import Credits
+from models.credits import Credits
 from extensions import db
 from models.collection import Collection
 from models.item import Item
 from utils.console import console
 
-def add_item(name, ref, is_ia, sensitive_content, type, source, attr, extra, credits_id, collection_id):
+def add_item(name, ref, is_ia, sensitive_content, type, source, attr, extra, credits_id, collection_id, user_id):
     console.log("Add item method called")
+    
+    collection = Collection.query.filter_by(id=collection_id).first()
+    if collection is None:
+        raise Exception("Collection not found")
+    
+    if collection.user_id != user_id:
+        raise Exception("User not allowed to add item to this collection")
+    
     new_item = Item(name=name, ref=ref, is_ia=is_ia, sensitive_content=sensitive_content, type=type, source=source, attr=attr, extra=extra, credits_id=credits_id, collection_id=collection_id)
     
     db.session.add(new_item)
@@ -31,7 +39,7 @@ def get_item(id):
     
     return item
 
-def get_items(limit=25, offset=0, order_by='', order='asc'):
+def get_items(offset=0, limit=25, order_by='', order='asc'):
     console.log("Get items method called")
     orderByArgs = Item.id
     if order_by == 'view':
@@ -41,7 +49,7 @@ def get_items(limit=25, offset=0, order_by='', order='asc'):
         return Item.query.order_by(desc(orderByArgs)).limit(limit).offset(offset).all()
     return Item.query.order_by(asc(orderByArgs)).limit(limit).offset(offset).all()
 
-def get_items_in_collection(id_collecton, limit=25, offset=0, order_by='', order='asc'):
+def get_items_in_collection(id_collecton, offset=0, limit=25, order_by='', order='asc'):
     console.log("Get items in collection method called")
     collection = Collection.query.filter_by(id=id_collecton).first()
     
@@ -56,7 +64,7 @@ def get_items_in_collection(id_collecton, limit=25, offset=0, order_by='', order
         return Item.query.filter_by(collection_id=id_collecton).order_by(desc(orderByArgs)).limit(limit).offset(offset).all()
     return Item.query.filter_by(collection_id=id_collecton).order_by(asc(orderByArgs)).limit(limit).offset(offset).all()
 
-def get_items_from_user(user_id, limit=25, offset=0, order_by='', order='asc'):
+def get_items_from_user(user_id, offset=0, limit=25, order_by='', order='asc'):
     console.log("Get items from user method called")
     collections = Collection.query.filter_by(user_id=user_id).all()
     collections_id = []
@@ -76,10 +84,14 @@ def get_items_from_user(user_id, limit=25, offset=0, order_by='', order='asc'):
         return Item.query.filter(Item.collection_id.in_(collections_id)).order_by(desc(orderByArgs)).limit(limit).offset(offset).all()
     return Item.query.filter(Item.collection_id.in_(collections_id)).order_by(asc(orderByArgs)).limit(limit).offset(offset).all()
     
-def get_items_from_tags(tags_id, limit=25, offset=0, order_by='', order='asc'):
+def get_items_from_tags(tags_id, limit=25, offset=0, order_by='id', order='asc'):
     # isso aqui vai ser um pouco mais complicado
     console.log("Get items from tag method called")
-    return []
+    tags_id = tags_id.split(',')
+    items = []
+    
+    colle
+    
 
 def update_item(id, name, ref, is_ia, type, source, attr, extra, credits_id, collection_id):
     item = Item.query.filter_by(id=id).first()

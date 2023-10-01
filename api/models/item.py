@@ -2,7 +2,7 @@ from extensions import db
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(150), nullable=True)
     ref = db.Column(db.String(300), nullable=False)
     
     is_ia = db.Column(db.Boolean, nullable=False, default=False)

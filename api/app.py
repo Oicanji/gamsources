@@ -1,10 +1,11 @@
 
 from flask import Flask, render_template
-
+from flask_cors import CORS
 from config import BASE_PORT, BASE_URL
 
 app = Flask(__name__)
 app.config.from_object('config')
+CORS(app, origins="*")
 
     
 @app.route('/')
