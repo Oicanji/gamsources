@@ -1,4 +1,7 @@
 from sqlalchemy import asc, desc
+from utils.dict import list_object_to_dict, object_to_dict
+from models.user import User
+from models.tag_collection import TagCollection
 from models.credits import Credits
 from extensions import db
 from models.collection import Collection
@@ -15,7 +18,14 @@ def add_item(name, ref, is_ia, sensitive_content, type, source, attr, extra, cre
     if collection.user_id != user_id:
         raise Exception("User not allowed to add item to this collection")
     
-    new_item = Item(name=name, ref=ref, is_ia=is_ia, sensitive_content=sensitive_content, type=type, source=source, attr=attr, extra=extra, credits_id=credits_id, collection_id=collection_id)
+    tags_ids = ''
+    tags = TagCollection.query.filter_by(collection_id=collection_id).all()
+    for tag in tags:
+        tags_ids += str(tag.tag_id) + ','
+    if tags_ids != '':
+        tags_ids = tags_ids[:-1]
+    
+    new_item = Item(name=name, ref=ref, is_ia=is_ia, sensitive_content=sensitive_content, type=type, source=source, attr=attr, extra=extra, credits_id=credits_id, collection_id=collection_id, tags=tags_ids)
     
     db.session.add(new_item)
     db.session.commit()
@@ -28,16 +38,10 @@ def get_item(id):
     if item is None:
         raise Exception("Item not found")
     
-    credits = Credits.query.filter_by(id=item.credits_id).first()
-    
-    item.credits = credits    
-    
-    # collection = Collection.query.filter_by(id=item.collection_id).first()
-    
-    # collection.view += 1
-    # db.session.commit()
-    
-    return item
+    credits = Credits.query.filter_by(id=item.credits_id).first()  
+    if credits:
+        return {"item": object_to_dict(item), "credits": object_to_dict(credits)}
+    return {"item": object_to_dict(item), "credits": None}
 
 def get_items(offset=0, limit=25, order_by='', order='asc'):
     console.log("Get items method called")
@@ -87,13 +91,16 @@ def get_items_from_user(user_id, offset=0, limit=25, order_by='', order='asc'):
 def get_items_from_tags(tags_id, limit=25, offset=0, order_by='id', order='asc'):
     # isso aqui vai ser um pouco mais complicado
     console.log("Get items from tag method called")
-    tags_id = tags_id.split(',')
-    items = []
     
-    colle
-    
+    orderByArgs = Item.id
+    if order_by == 'view':
+        orderByArgs = Item.view
+        
+    if order == 'desc':
+        return Item.query.filter(Item.tags.contains(tags_id)).order_by(desc(orderByArgs)).limit(limit).offset(offset).all()
+    return Item.query.filter(Item.tags.contains(tags_id)).order_by(asc(orderByArgs)).limit(limit).offset(offset).all()
 
-def update_item(id, name, ref, is_ia, type, source, attr, extra, credits_id, collection_id):
+def update_item(id, name, ref, is_ia, type, source, attr, extra, credits_id):
     item = Item.query.filter_by(id=id).first()
     
     item.name = name if name is not None else item.name
@@ -104,7 +111,6 @@ def update_item(id, name, ref, is_ia, type, source, attr, extra, credits_id, col
     item.attr = attr if attr is not None else item.attr
     item.extra = extra if extra is not None else item.extra
     item.credits_id = credits_id if credits_id is not None else item.credits_id
-    item.collection_id = collection_id if collection_id is not None else item.collection_id
     
     db.session.commit()
     
@@ -118,11 +124,11 @@ def remove_item(id):
     
     return item
 
-def add_licence(id, licence):
-    item = Item.query.filter_by(id=id).first()
-    
-    item.licence = licence
-    
-    db.session.commit()
-    
-    return item
+def is_my_item_or_iam_adm(user_id, item_id):
+    console.log("Is my item or I am admin method called")
+        
+    item = Item.query.filter_by(id=item_id).first()
+    if item.id == user_id:
+        return True
+    user = User.query.filter_by(id=user_id).first()
+    return user.is_admin

@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-from routes.router_utils import render
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt, jwt_required, get_jwt_identity, unset_jwt_cookies
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -11,61 +10,56 @@ user_blueprint = Blueprint('user', __name__)
 
 blocklist = set()
 
-@user_blueprint.route('/register', methods=['GET', 'POST'])
+@user_blueprint.route('/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-        email = data.get('email')
-        
-        if not username or not password or not email:
-            return jsonify({"msg": "Username, password or email is missing."}), 400
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    email = data.get('email')
     
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            return jsonify({"msg": "Nome de usuário já existe. Escolha outro."}), 400
-        
-        hashed_password = generate_password_hash(password, method='scrypt')
+    if not username or not password or not email:
+        return jsonify({"msg": "Username, password or email is missing."}), 400
 
-        new_user = User(username=username, password=hashed_password, email=email)
-        
-        db.session.add(new_user)
-        db.session.commit()
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        return jsonify({"msg": "Nome de usuário já existe. Escolha outro."}), 400
     
-        access_token = create_access_token(identity=str(new_user.id))
-        refresh_token = create_refresh_token(str(new_user.id))
+    hashed_password = generate_password_hash(password, method='scrypt')
 
-        return jsonify({"access_token": access_token, "refresh_token": refresh_token}), 201
-    return render('register.html')
+    new_user = User(username=username, password=hashed_password, email=email)
+    
+    db.session.add(new_user)
+    db.session.commit()
 
-@user_blueprint.route('/login', methods=['GET', 'POST'])
+    access_token = create_access_token(identity=str(new_user.id))
+    refresh_token = create_refresh_token(str(new_user.id))
+
+    return jsonify({"access_token": access_token, "refresh_token": refresh_token}), 201
+
+@user_blueprint.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        data = request.get_json()
-        user = data.get('user') #or email or username
-        password = data.get('password')
+    data = request.get_json()
+    user = data.get('user') #or email or username
+    password = data.get('password')
+    
+    if not user or not password:
+        return jsonify({"msg": "Username or password is missing."}), 400
+    
+    try:
+        if '@' in user:
+            user = User.query.filter_by(email=user).first()
+        else:
+            user = User.query.filter_by(username=user).first()
         
-        if not user or not password:
-            return jsonify({"msg": "Username or password is missing."}), 400
-        
-        try:
-            if '@' in user:
-                user = User.query.filter_by(email=user).first()
-            else:
-                user = User.query.filter_by(username=user).first()
+        if user and check_password_hash(user.password, password):
+            access_token = create_access_token(identity=user.id)
+            refresh_token = create_refresh_token(user.id)
             
-            if user and check_password_hash(user.password, password):
-                access_token = create_access_token(identity=user.id)
-                refresh_token = create_refresh_token(user.id)
-                
-                return jsonify(access_token=access_token, refresh_token=refresh_token), 200
-            else:
-                return jsonify({"msg": "Bad username or password"}), 401
-        except Exception as e:
-            return jsonify({"msg": "Error logging in.", "error": str(e)}), 500
-    return render('login.html')
-
+            return jsonify(access_token=access_token, refresh_token=refresh_token), 200
+        else:
+            return jsonify({"msg": "Bad username or password"}), 401
+    except Exception as e:
+        return jsonify({"msg": "Error logging in.", "error": str(e)}), 500
 
 @user_blueprint.route("/refresh", methods=["POST"])
 @jwt_required(refresh=True)

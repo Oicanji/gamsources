@@ -16,3 +16,5 @@ class Item(db.Model):
 
     credits_id = db.Column(db.Integer, db.ForeignKey('credits.id'), nullable=True) #ondelete='CASCADE'
     collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
+    
+    tags = db.Column(db.String(580), nullable=True)

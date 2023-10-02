@@ -1,4 +1,8 @@
 from sqlalchemy import asc, desc
+from models.item import Item
+from utils.dict import object_to_dict
+from controllers.controller_item import get_item
+from models.tag_collection import TagCollection
 from extensions import db
 from models.collection import Collection
 from models.user import User
@@ -20,11 +24,16 @@ def get_collection(id):
     console.log("Get collection method called")
     
     collection = Collection.query.filter_by(id=id).first()
+    items_in_collection = Item.query.filter_by(collection_id=id).all()
+    
+    items = []
+    for item in items_in_collection:
+        items.append(get_item(item.id))
     
     collection.view += 1
     db.session.commit()
     
-    return collection
+    return {"collection": object_to_dict(collection), "items": items}
 
 def get_user_collections(user_id, offset=0, limit=25):
     console.log("Get user collections method called")
@@ -42,6 +51,23 @@ def get_collections(limit=25, offset=0, order_by='', order='asc'):
     if order == 'desc':
         return Collection.query.order_by(desc(orderByArgs)).limit(limit).offset(offset).all()
     return Collection.query.order_by(asc(orderByArgs)).limit(limit).offset(offset).all()
+
+def get_collections_by_tags(tags, limit=25, offset=0, order_by='', order='asc'):
+    console.log("Get collections by tags method called")
+    tag_ids = [int(tag_id) for tag_id in tags.split(',') if tag_id.strip()]
+    console.log(tag_ids)
+
+    query = db.session.query(Collection).join(TagCollection).filter(TagCollection.tag_id.in_(tag_ids))
+
+    if order_by == 'view':
+        if order == 'asc':
+            query = query.order_by(Collection.view)
+        else:
+            query = query.order_by(Collection.view.desc())
+    else:
+        query = query.order_by(Collection.id)
+
+    return query.limit(limit).offset(offset).all()
     
 def edit_collection(data):
     console.log("Edit collection method called")

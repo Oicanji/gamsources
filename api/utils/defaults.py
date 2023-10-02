@@ -14,7 +14,6 @@ class defaults:
     def create():
         console.log("Defaults method called")
         controller = defaults()
-        console.log(GENERATE_ADM)
         if GENERATE_ADM == "true":
             controller.adm_default()
         controller.tag_default()

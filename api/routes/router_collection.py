@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from controllers.controller_collection import add_collection, delete_collection, edit_collection, get_collection, get_collections, get_user_collections, is_my_collection_or_iam_adm
+from controllers.controller_collection import add_collection, delete_collection, edit_collection, get_collection, get_collections, get_collections_by_tags, get_user_collections, is_my_collection_or_iam_adm
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from utils.dict import list_object_to_dict, object_to_dict
@@ -39,9 +39,25 @@ def get():
     try:
         collection = get_collection(request.args.get('id'))
         
-        return jsonify({"msg": "Collection retrieved successfully.", "collection": object_to_dict(collection) }), 200
+        return jsonify({"msg": "Collection retrieved successfully.", "collection": collection }), 200
     except Exception as e:
         return jsonify({"msg": "Error retrieving collection.", "error": str(e)}), 500
+    
+@collection_blueprint.route('/by_tags', methods=['GET'])
+def get_by_tags():
+    try:
+        offset = request.args.get('offset', 0)
+        limit = request.args.get('limit', 25)
+        order_by = request.args.get('order_by', 'id')
+        order = request.args.get('order', 'asc')
+        
+        tags = request.args.get('tags_ids', '')
+        
+        collections = get_collections_by_tags(tags, limit, offset, order_by, order)
+        
+        return jsonify({"msg": "Collections retrieved successfully.", "collections": list_object_to_dict(collections) }), 200
+    except Exception as e:
+        return jsonify({"msg": "Error retrieving collections.", "error": str(e)}), 500
     
 @collection_blueprint.route('/all', methods=['GET'])
 def get_all():

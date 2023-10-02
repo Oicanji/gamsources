@@ -10,7 +10,7 @@ CORS(app, origins="*")
     
 @app.route('/')
 def home():
-    return render_template('pages/home.html', data={"BASE_URL": BASE_URL, "BASE_PORT": BASE_PORT})
+    return ("Hello World!")
 
 # Routes
 from routes.router_user import user_blueprint  
@@ -21,6 +21,7 @@ from routes.router_social import social_blueprint
 from routes.router_social_media import social_media_blueprint
 from routes.router_credits import credits_blueprint
 from routes.router_item import item_blueprint
+from routes.router_user_collection_votes import vote_blueprint
 
 app.register_blueprint(user_blueprint, url_prefix='/user') 
 app.register_blueprint(collection_blueprint, url_prefix='/collection')
@@ -30,3 +31,4 @@ app.register_blueprint(social_blueprint, url_prefix='/social')
 app.register_blueprint(social_media_blueprint, url_prefix='/social_media')
 app.register_blueprint(credits_blueprint, url_prefix='/credits')
 app.register_blueprint(item_blueprint, url_prefix='/item')
+app.register_blueprint(vote_blueprint, url_prefix='/vote')

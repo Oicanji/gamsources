@@ -8,7 +8,6 @@
  - SECRET_KEY = By default, it is "cavalodefogo," essentially the encryption password used by Flask.
  
  - SQLALCHEMY_DATABASE_URI = By default, "sqlite:///gamsources.db," where the database will be stored.
- - API_ONLY_MODE = By default, "FALSE," this enables or disables the internal interface. If enabled, the routes for the internal interface will not be available, and the system will only return API responses to the user. This is ideal if you have an external interface or if you intend to use POSTMAN for testing.
 
  *(We have an API debugging file in [docs/], see more)*
 
