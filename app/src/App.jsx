@@ -3,14 +3,17 @@ import Navegation from "./page";
 import { BrowserRouter } from "react-router-dom";
 
 import "./App.styles.scss";
+import { MessageProvider } from "./context/Message";
 
 function App() {
   return (
     <>
       <ThemeProvider>
-        <BrowserRouter>
-          <Navegation />
-        </BrowserRouter>
+        <MessageProvider>
+          <BrowserRouter>
+            <Navegation />
+          </BrowserRouter>
+        </MessageProvider>
       </ThemeProvider>
     </>
   );

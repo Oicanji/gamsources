@@ -2,6 +2,7 @@ import { ConfigProvider } from "antd";
 import { createContext, useEffect, useState } from "react";
 
 const lightTheme = {
+  name: "light",
   token: {
     borderRadius: 2,
 
@@ -90,6 +91,7 @@ const lightTheme = {
   },
 };
 const darkTheme = {
+  name: "dark",
   token: {
     colorPrimary: "#00b96b",
 
