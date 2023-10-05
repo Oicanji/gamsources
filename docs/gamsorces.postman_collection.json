@@ -57,7 +57,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/collection/me?offset=1&limit=1",
+							"raw": "{{host}}/collection/me?offset=0&limit=1",
 							"host": [
 								"{{host}}"
 							],
@@ -68,7 +68,7 @@
 							"query": [
 								{
 									"key": "offset",
-									"value": "1"
+									"value": "0"
 								},
 								{
 									"key": "limit",
@@ -105,9 +105,16 @@
 				},
 				{
 					"name": "get_collections",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{host}}/collection/all?offset=0&limit=10&order_by=id&order=desc",
 							"host": [
@@ -133,6 +140,48 @@
 								{
 									"key": "order",
 									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_collections_by_tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/collection/by_tags?offset=0&limit=10&tags_ids=1,2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"collection",
+								"by_tags"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "order_by",
+									"value": "id",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "desc",
+									"disabled": true
+								},
+								{
+									"key": "tags_ids",
+									"value": "1,2"
 								}
 							]
 						}
@@ -441,7 +490,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"collection_id\":\"1\",\r\n    \"tag_id\":\"1\"\r\n}",
+							"raw": "{\r\n    \"collection_id\":\"1\",\r\n    \"tag_id\":\"3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -957,7 +1006,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"expression\":\"This project are create by [1], and [2], using a plataform [3]\",\r\n    \"add1\":\"Hideo Kojima\",\r\n    \"add2\":\"Akira Toriyama\",\r\n    \"add3\":\"blender\"\r\n    //\"license\":\"CC BY\"\r\n}",
+							"raw": "{\r\n    \"ref\":\"https://ccmixter.org/content/doxent/doxent_-_Departure_(piano_impro)_1.flac\",\r\n    \"type\":\"sprite\",\r\n    \"source\":\"https://ccmixter.org/content/doxent/doxent_-_Departure_(piano_impro)_1.flac\",\r\n    \"collection_id\":1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -978,7 +1027,7 @@
 					"response": []
 				},
 				{
-					"name": "get_credits Copy",
+					"name": "get_item",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -993,18 +1042,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/credits/get?id=2",
+							"raw": "{{host}}/item/get?id=1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"credits",
+								"item",
 								"get"
 							],
 							"query": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
@@ -1012,7 +1061,191 @@
 					"response": []
 				},
 				{
-					"name": "edit_credits Copy",
+					"name": "get_items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/item/all?offset=0&limit=25",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"item",
+								"all"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "order_by",
+									"value": "id",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_items_by_collection",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/item/get_by_collection?offset=0&limit=25&collection_id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"item",
+								"get_by_collection"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "collection_id",
+									"value": "1"
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "order_by",
+									"value": "id",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_items_by_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/item/get_by_user?offset=0&limit=25&user_id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"item",
+								"get_by_user"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_items_by_tag",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/item/all?offset=0&limit=25&tags_id=1,2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"item",
+								"all"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "tags_id",
+									"value": "1,2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit_item",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1028,7 +1261,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"2\",\r\n    \"expression\":\"This project are create by [1], and [2], using a plataform [3]\",\r\n    \"add1\":\"Carlos El Topo Que Gira\",\r\n    \"add2\":\"Todd Howard\",\r\n    \"add3\":\"godot\"\r\n    //\"license\":\"CC BY\"\r\n}",
+							"raw": "{\r\n    \"id\":\"1\",\r\n    //\"name\":\"new name\",\r\n    //\"ref\":\"www.google.com\",\r\n    //\"is_ia\":\"true\",\r\n    //\"type\":\"sprite\",\r\n    //\"source\":\"www.google.com\",\r\n    //\"attr\":\"www.google.com\",\r\n    //\"extra\":\"www.google.com\",\r\n    \"credits_id\":\"1\"\r\n    //\"collection_id\":\"2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1036,12 +1269,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/credits/update",
+							"raw": "{{host}}/item/update",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"credits",
+								"item",
 								"update"
 							]
 						}
@@ -1049,7 +1282,7 @@
 					"response": []
 				},
 				{
-					"name": "delete_credits Copy",
+					"name": "delete_credits",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1077,6 +1310,48 @@
 									"key": "id",
 									"value": "2"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "vote",
+			"item": [
+				{
+					"name": "vote",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vote\":-1,\r\n    \"collection_id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/vote/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"vote",
+								""
 							]
 						}
 					},
@@ -1260,6 +1535,10 @@
 					"        }",
 					"    }, function (err, res) {",
 					"        let response = res.json();",
+					"        if ( response.hasOwnProperty('msg') ) {",
+					"            doLogin();",
+					"            return;",
+					"        }",
 					"        if (err || response.msg == \"Token has expired\" || response.msg == \"Not enough segments\") {",
 					"            console.log(\"Error:\", msg);",
 					"            doLogin(); // Se ocorrer um erro, faça login novamente",
@@ -1298,7 +1577,7 @@
 		},
 		{
 			"key": "host",
-			"value": "http://127.0.0.1:5000",
+			"value": "http://127.0.0.1:5050",
 			"type": "string"
 		},
 		{

@@ -7,6 +7,7 @@ from extensions import db
 from models.collection import Collection
 from models.item import Item
 from utils.console import console
+from config import MAX_ITEMS_IN_COLLECTION
 
 def add_item(name, ref, is_ia, sensitive_content, type, source, attr, extra, credits_id, collection_id, user_id):
     console.log("Add item method called")
@@ -17,6 +18,11 @@ def add_item(name, ref, is_ia, sensitive_content, type, source, attr, extra, cre
     
     if collection.user_id != user_id:
         raise Exception("User not allowed to add item to this collection")
+    
+    number_of_items = Item.query.filter_by(collection_id=collection_id).count()
+    
+    if number_of_items >= MAX_ITEMS_IN_COLLECTION:
+        raise Exception("Collection already have "+str(MAX_ITEMS_IN_COLLECTION)+" items")
     
     tags_ids = ''
     tags = TagCollection.query.filter_by(collection_id=collection_id).all()

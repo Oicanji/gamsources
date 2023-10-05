@@ -3,10 +3,32 @@ import { createContext } from "react";
 
 export const MessageContext = createContext({
   message: {
+    /**
+     * Send info message to user
+     * @param {string} msg
+     */
     info: (msg) => {},
+    /**
+     * Send error message to user
+     * @param {string} msg
+     */
     error: (msg) => {},
+    /**
+     * Send success message to user
+     * @param {string} msg
+     */
     success: (msg) => {},
+    /**
+     * Send warning message to user
+     * @param {string} msg
+     */
     warning: (msg) => {},
+    /**
+     * Use to response error to server to user
+     * @param {any} err
+     * @param {string} action
+     */
+    catch: (err, action) => {},
   },
 });
 
@@ -29,11 +51,31 @@ export function MessageProvider({ children }) {
     messageApi.warning(msg);
   };
 
+  const catch_error = (err, action) => {
+    if (!err.request.hasOwnProperty("response")) {
+      message.error("Server not responding!");
+    } else {
+      var error = err.request.response;
+      error = JSON.parse(error);
+
+      message.error(
+        error
+          ? error.hasOwnProperty("error")
+            ? error.error
+            : error.hasOwnProperty("msg")
+            ? error.msg
+            : action + " failed!"
+          : action + " failed!"
+      );
+    }
+  };
+
   const message = {
     info,
     error,
     success,
     warning,
+    catch: catch_error,
   };
 
   return (

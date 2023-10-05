@@ -11,6 +11,7 @@ import {
 import { Register } from "../register/Register";
 import { MessageContext } from "../../context/Message";
 import apiUser from "../../api/user";
+import { AuthContext } from "../../context/Auth";
 
 export function Login({ children }) {
   const [open, setOpen] = useState(false);
@@ -57,6 +58,7 @@ export function Login({ children }) {
   const innerLoading = <Skeleton active />;
 
   const [modalText, setModalText] = useState(innerForm);
+  const { setTokens } = useContext(AuthContext);
 
   const showModal = () => {
     setOpen(true);
@@ -73,21 +75,9 @@ export function Login({ children }) {
       );
 
       message.success("Login successfully!");
-      console.log(res);
+      setTokens(res.data.access_token, res.data.refresh_token);
     } catch (err) {
-      console.log(err);
-      var error = err.request.response;
-      error = JSON.parse(error);
-
-      message.error(
-        error
-          ? error.hasOwnProperty("error")
-            ? error.error
-            : error.hasOwnProperty("msg")
-            ? error.msg
-            : "Login failed!"
-          : "Login failed!"
-      );
+      message.catch(err, "Login");
     }
 
     setOpen(false);

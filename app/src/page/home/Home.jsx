@@ -3,8 +3,9 @@ import { Layout } from "antd";
 import { TopMenu } from "../../components/top-menu/TopMenu";
 import { Announcement } from "../../components/announcement/Announcement";
 import { ThemeContext } from "../../context/Theme";
-
-const { Header, Content } = Layout;
+import { SearchProvider } from "../../context/Search";
+import { News } from "../../components/news/News";
+import { SearchResults } from "../../components/search-results/SearchResults";
 
 const Home = () => {
   const [current, setCurrent] = useState("items");
@@ -16,18 +17,21 @@ const Home = () => {
   };
 
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-        textAlign: "center",
-        backgroundColor: thisTheme.token.colorBgElevated,
-        color: thisTheme.token.colorText,
-      }}
-    >
-      <Announcement />
-      <TopMenu onClickMenu={onClick} onMenu={current} />
-      <Content>Content</Content>
-    </Layout>
+    <SearchProvider>
+      <Layout
+        style={{
+          minHeight: "100vh",
+          textAlign: "center",
+          backgroundColor: thisTheme.token.colorBgElevated,
+          color: thisTheme.token.colorText,
+        }}
+      >
+        <Announcement />
+        <TopMenu onClickMenu={onClick} onMenu={current} />
+        <News />
+        <SearchResults />
+      </Layout>
+    </SearchProvider>
   );
 };
 

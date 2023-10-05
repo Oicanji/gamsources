@@ -1,4 +1,4 @@
-from config import BASE_PORT, BASE_URL
+from config import BASE_PORT, BASE_URL, DEBUG
 from app import app
 from extensions import db
 
@@ -11,4 +11,4 @@ if __name__ == '__main__':
         # verify if default exists
         defaults.create()
     
-    app.run(host=BASE_URL, port=BASE_PORT, debug=True)
+    app.run(host=BASE_URL, port=BASE_PORT, debug=DEBUG)

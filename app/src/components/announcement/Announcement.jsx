@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/Theme";
-import { getAnnouncement } from "../../api/announcement/announcement";
+import { getAnnouncement } from "../../api/other/announcement";
 
 export function Announcement() {
   const { thisTheme } = useContext(ThemeContext);
@@ -21,7 +21,7 @@ export function Announcement() {
     <div
       style={{
         backgroundColor: thisTheme.token.colorPrimary,
-        color: thisTheme.token.colorText,
+        color: thisTheme.token.colorWhite,
         fontWeight: "bold",
         padding: "0.25em",
       }}

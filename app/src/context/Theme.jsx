@@ -116,15 +116,18 @@ export const ThemeContext = createContext({
 export function ThemeProvider({ children }) {
   useEffect(() => {
     // get theme from local storage
-    var theme = localStorage.getItem("theme");
+    var theme = JSON.parse(localStorage.getItem("theme"));
+
     // theme exists in local storage
-    if (!theme) {
+    if (theme == null) {
+      console.log("theme null");
       theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? darkTheme
-        : lightTheme;
+        ? "dark"
+        : "light";
     }
-    console.log(theme);
-    setTheme(JSON.parse(theme) === "light" ? lightTheme : darkTheme);
+    const themeSelect = theme === "light" ? lightTheme : darkTheme;
+    setTheme(themeSelect.name);
+    document.body.css = `background-color: ${themeSelect.token.colorBgElevated};`;
   }, []);
 
   const setTheme = (nameTheme) => {

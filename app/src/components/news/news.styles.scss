@@ -1,0 +1,55 @@
+.news-container{
+    position: relative;
+    height: 280px;
+    width: 100%;
+
+    .news-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        opacity: 0.4;
+        z-index: 1;
+        background-position: center;
+    }
+
+    div {
+        z-index: 2;
+    }
+    
+    text-shadow: 1px 1px 1px #000;
+
+    .text-left{
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+    .text-right{
+        position: relative;
+        a{
+            position: absolute;
+            bottom: 0;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+    }
+
+
+}
+
+.news-carousel{
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    //if screen is bigger to 1024px
+    @media screen and (min-width: 1024px){
+        margin: 12px 18% 12px 18%;
+    border-radius: 4px;
+        .news-image{
+            background-size: cover;
+            background-position: top;
+            background-repeat: no-repeat;
+        }
+    }
+}

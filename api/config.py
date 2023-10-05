@@ -12,6 +12,7 @@ if not os.path.exists("api/.env"):
         f.write("JWT_ACCESS_TOKEN_EXPIRES=3600\n")
         f.write("JWT_REFRESH_TOKEN_EXPIRES=86400\n")
         f.write("GENERATE_ADM=true\n")
+        f.write("MAX_ITEMS_IN_COLLECTION=50\n")
 
 # Load the .env file
 load_dotenv()
@@ -25,3 +26,4 @@ BASE_PORT = int(os.getenv("BASE_PORT", 5000))
 JWT_ACCESS_TOKEN_EXPIRES  = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES", 3600))
 JWT_REFRESH_TOKEN_EXPIRES = int(os.getenv("JWT_REFRESH_TOKEN_EXPIRES", 86400))
 GENERATE_ADM = os.getenv("GENERATE_ADM", "true")
+MAX_ITEMS_IN_COLLECTION = int(os.getenv("MAX_ITEMS_IN_COLLECTION", 50))

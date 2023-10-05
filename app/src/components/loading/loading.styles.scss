@@ -1,0 +1,24 @@
+.loadingPage{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+
+    //anim hide after 800ms 
+    animation: hide 800ms ease-in-out forwards;
+
+    @keyframes hide{
+        0%{
+            opacity: 1;
+        }
+        60%{
+            opacity: 1;
+        }
+        100%{
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+}

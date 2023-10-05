@@ -1,6 +1,7 @@
 from models.tag import Tag
 from utils.console import console
 from extensions import db
+from models.tag_collection import TagCollection
 
 def add_tag(name, color):
     console.log("Add tag method called")

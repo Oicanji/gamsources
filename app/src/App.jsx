@@ -4,15 +4,21 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./App.styles.scss";
 import { MessageProvider } from "./context/Message";
+import { AuthProvider } from "./context/Auth";
+import { Loading } from "./components/loading/Loading";
 
 function App() {
   return (
     <>
       <ThemeProvider>
         <MessageProvider>
-          <BrowserRouter>
-            <Navegation />
-          </BrowserRouter>
+          <AuthProvider>
+            <Loading>
+              <BrowserRouter>
+                <Navegation />
+              </BrowserRouter>
+            </Loading>
+          </AuthProvider>
         </MessageProvider>
       </ThemeProvider>
     </>
