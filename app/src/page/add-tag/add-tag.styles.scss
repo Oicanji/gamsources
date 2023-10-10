@@ -1,0 +1,37 @@
+.tag-created{
+    position: relative;
+    margin: 5px;
+    padding: 2px 8px 5px 8px;
+    font-size: 0.75rem;
+    text-shadow: 2px 2px 0px #000, 
+               2px -2px 0px #000, 
+			   -2px 2px 0px #000, 
+			   -2px -2px 0px #000, 
+			   2px 0px 0px #000, 
+			   0px 2px 0px #000, 
+			   -2px 0px 0px #000, 
+			   0px -2px 0px #000;
+
+    z-index: 2;
+
+    > div {
+        opacity: 0;
+        
+        button{
+            z-index: 3;
+        }
+    }
+
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.2);
+
+        > div {
+            opacity: 1;
+            
+            button{
+                background: none;
+            }
+        }
+    }
+}

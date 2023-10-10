@@ -1,17 +1,14 @@
 import { Skeleton } from "antd";
-import { useContext } from "react";
-import { ThemeContext } from "../../context/Theme";
 import "./loading.styles.scss";
 
 export function Loading({ children }) {
-  const { thisTheme } = useContext(ThemeContext);
   return (
     <>
       <div
         className="loadingPage"
         style={{
-          backgroundColor: thisTheme.token.colorBgBase,
-          color: thisTheme.token.colorText,
+          backgroundColor: "#101010",
+          color: "#fff",
         }}
       >
         <div

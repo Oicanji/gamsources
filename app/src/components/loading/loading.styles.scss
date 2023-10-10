@@ -5,9 +5,10 @@
     width: 100%;
     height: 100%;
     z-index: 9999;
+    transition: all 0s linear;
 
-    //anim hide after 800ms 
-    animation: hide 800ms ease-in-out forwards;
+    //anim hide after 300ms 
+    animation: hide 600ms ease-in-out forwards;
 
     @keyframes hide{
         0%{

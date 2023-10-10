@@ -6,3 +6,4 @@ instance
 .expo
 node_modules
 bun.lockb
+storage

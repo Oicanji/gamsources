@@ -25,34 +25,29 @@ export function News() {
   return (
     <Carousel className="news-carousel" autoplay autoplaySpeed={30000}>
       {news.length !== 0 ? (
-        news.map(
-          (item) => (
-            console.log(item.image),
-            (
-              <div className="news-container" key={item.id + "_news"}>
-                <Layout
-                  className="news-image"
-                  style={{
-                    backgroundImage: `url(./${item.image})`,
-                  }}
-                ></Layout>
-                <Row>
-                  <Col span={24} className="text-top">
-                    <Typography.Title>{item.title}</Typography.Title>
-                  </Col>
-                  <Col span={12} className="text-left">
-                    <p>{item.text}</p>
-                  </Col>
-                  <Col span={12} className="text-right">
-                    <a href={item.link} target="_blank" rel="noreferrer">
-                      Learn more this.
-                    </a>
-                  </Col>
-                </Row>
-              </div>
-            )
-          )
-        )
+        news.map((item) => (
+          <div className="news-container" key={item.id + "_news"}>
+            <Layout
+              className="news-image"
+              style={{
+                backgroundImage: `url(./${item.image})`,
+              }}
+            ></Layout>
+            <Row>
+              <Col span={24} className="text-top">
+                <Typography.Title>{item.title}</Typography.Title>
+              </Col>
+              <Col span={12} className="text-left">
+                <p>{item.text}</p>
+              </Col>
+              <Col span={12} className="text-right">
+                <a href={item.link} target="_blank" rel="noreferrer">
+                  Learn more this.
+                </a>
+              </Col>
+            </Row>
+          </div>
+        ))
       ) : (
         <></>
       )}

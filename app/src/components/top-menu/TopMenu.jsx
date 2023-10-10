@@ -1,25 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCube, faBook } from "@fortawesome/free-solid-svg-icons";
-import { Row, Col, Menu } from "antd";
+import { Row, Col, Button, Tooltip } from "antd";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/Theme";
 import { ButtonTheme } from "../button-theme/ButtonTheme";
 import { ButtonUser } from "../button-user/ButtonUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faReply } from "@fortawesome/free-solid-svg-icons";
 
-const menus = [
-  {
-    label: "Items",
-    key: "items",
-    icon: <FontAwesomeIcon icon={faCube} />,
-  },
-  {
-    label: "Collections",
-    key: "collections",
-    icon: <FontAwesomeIcon icon={faBook} />,
-  },
-];
-
-export function TopMenu({ onMenu, onClickMenu }) {
+export function TopMenu() {
   const { thisTheme } = useContext(ThemeContext);
 
   return (
@@ -30,16 +17,21 @@ export function TopMenu({ onMenu, onClickMenu }) {
       }}
       justify="space-between"
     >
-      <Col span={8}>
-        <Menu
-          onClick={onClickMenu}
-          selectedKeys={[onMenu]}
-          mode="horizontal"
-          items={menus}
-          style={{
-            borderBottom: "0px solid " + thisTheme.token.colorBgBase,
-          }}
-        />
+      <Col span={8} style={{ textAlign: "left" }}>
+        <Tooltip title="Back to home page" color={thisTheme.token.colorPrimary}>
+          <Button
+            ghost
+            type="link"
+            style={{
+              color: thisTheme.token.colorPrimary,
+              fontSize: "1.2rem",
+            }}
+            onClick={() => navigation.navigate("/")}
+          >
+            <FontAwesomeIcon icon={faReply} />{" "}
+            <span style={{ marginLeft: "0.8rem" }}>Back</span>
+          </Button>
+        </Tooltip>
       </Col>
       <Col
         span={4}

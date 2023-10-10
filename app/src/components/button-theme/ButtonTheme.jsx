@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as starSolid } from "@fortawesome/free-solid-svg-icons";
-import { faStar as starRegular } from "@fortawesome/free-regular-svg-icons";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faSun } from "@fortawesome/free-regular-svg-icons";
 import { Button } from "antd";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/Theme";
@@ -16,9 +16,7 @@ export function ButtonTheme() {
         }}
         type="text"
         icon={
-          <FontAwesomeIcon
-            icon={thisTheme.name === "light" ? starRegular : starSolid}
-          />
+          <FontAwesomeIcon icon={thisTheme.name === "light" ? faSun : faMoon} />
         }
         style={{
           color: thisTheme.token.colorPrimary,

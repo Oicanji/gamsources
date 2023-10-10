@@ -1,0 +1,26 @@
+.container-search{
+    display: flex;
+    flex-direction: row;
+
+    margin: 0 10px;
+
+    .container-results{
+        width: 82%;
+        
+        @media (max-width: 1432px) {
+            width: 80%;
+        }
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+    .container-sider{
+        width: 18%;
+        @media (max-width: 1432px) {
+            width: 20%;
+        }
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+}

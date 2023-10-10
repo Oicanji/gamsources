@@ -28,7 +28,7 @@ export function Login({ children }) {
     >
       <Divider />
       <Typography.Title level={3}>Login</Typography.Title>
-      <Form form={formLogin} layout="vertical" onFinish={() => handleOk()}>
+      <Form form={formLogin} layout="vertical" onFinish={() => handleLogin()}>
         <Form.Item
           label="Username"
           name="username"
@@ -58,13 +58,13 @@ export function Login({ children }) {
   const innerLoading = <Skeleton active />;
 
   const [modalText, setModalText] = useState(innerForm);
-  const { setTokens } = useContext(AuthContext);
+  const { setTokens, isAuth, auth } = useContext(AuthContext);
 
   const showModal = () => {
     setOpen(true);
   };
 
-  const handleOk = async () => {
+  const handleLogin = async () => {
     setModalText(innerLoading);
     setConfirmLoading(true);
 
@@ -75,7 +75,12 @@ export function Login({ children }) {
       );
 
       message.success("Login successfully!");
-      setTokens(res.data.access_token, res.data.refresh_token);
+      setTokens(
+        res.data.access_token,
+        res.data.refresh_token,
+        res.data.is_admin,
+        res.data.user
+      );
     } catch (err) {
       message.catch(err, "Login");
     }
@@ -85,8 +90,17 @@ export function Login({ children }) {
     setModalText(innerForm);
   };
 
+  const handleLogoff = async () => {
+    try {
+      await apiUser.logout(auth);
+      message.success("Logoff successfully!");
+      setTokens(null, null, false, {});
+    } catch (err) {
+      message.catch(err, "Logoff");
+    }
+  };
+
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
   };
 
@@ -94,11 +108,11 @@ export function Login({ children }) {
 
   return (
     <>
-      <span onClick={showModal}>{children}</span>
+      <span onClick={isAuth ? handleLogoff : showModal}>{children}</span>
       <Modal
         title="Authentication - User login"
         open={open}
-        onOk={handleOk}
+        onOk={handleLogin}
         okText="Login"
         confirmLoading={confirmLoading}
         onCancel={handleCancel}

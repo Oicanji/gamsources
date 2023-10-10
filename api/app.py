@@ -1,7 +1,6 @@
 
-from flask import Flask, render_template
+from flask import Flask
 from flask_cors import CORS
-from config import BASE_PORT, BASE_URL
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -32,3 +31,10 @@ app.register_blueprint(social_media_blueprint, url_prefix='/social_media')
 app.register_blueprint(credits_blueprint, url_prefix='/credits')
 app.register_blueprint(item_blueprint, url_prefix='/item')
 app.register_blueprint(vote_blueprint, url_prefix='/vote')
+
+import os
+
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['UPLOAD_FOLDER_IMAGES'], exist_ok=True)
+os.makedirs(app.config['UPLOAD_FOLDER_AUDIO'], exist_ok=True)
+os.makedirs(app.config['UPLOAD_FOLDER_TEXT'], exist_ok=True)

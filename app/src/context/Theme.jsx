@@ -95,10 +95,20 @@ const darkTheme = {
   token: {
     colorPrimary: "#00b96b",
 
-    colorBgBase: "#101010",
-    colorBgContainer: "#121212",
-    colorBgLayout: "#1919119",
-    colorBgElevated: "#161616",
+    colorPrimaryActive: "#0958d9",
+    colorPrimaryBg: "#093321",
+    colorPrimaryBgHover: "#76deb2",
+    colorPrimaryBorder: "#6ef5bc",
+    colorPrimaryBorderHover: "#40e39e",
+    colorPrimaryHover: "#25d98d",
+
+    colorBgBase: "#191919",
+    colorBgContainer: "#191919",
+    colorBgLayout: "#101010",
+    colorBgElevated: "#2C2C2C",
+
+    colorBorder: "#0f0f0f",
+    colorBorderSecondary: "#2F2F2F",
 
     colorTextBase: "#fff",
     colorText: "rgba(255, 255, 255, 0.88)",
@@ -120,7 +130,6 @@ export function ThemeProvider({ children }) {
 
     // theme exists in local storage
     if (theme == null) {
-      console.log("theme null");
       theme = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";

@@ -42,7 +42,6 @@ export function SearchProvider({ children }) {
   const getItems = async () => {
     try {
       const res = await apiItems.get(offset, limit, order_by, order);
-      console.log(res.data);
       setResults(res.data.items);
     } catch (err) {
       message.catch(err, "Get items");

@@ -1,23 +1,21 @@
 import { ThemeProvider } from "./context/Theme";
-import Navegation from "./page";
-import { BrowserRouter } from "react-router-dom";
-
-import "./App.styles.scss";
 import { MessageProvider } from "./context/Message";
 import { AuthProvider } from "./context/Auth";
+import { AdminProvider } from "./context/Admin";
+
 import { Loading } from "./components/loading/Loading";
 
-function App() {
+import "./App.styles.scss";
+
+function App({ children }) {
   return (
     <>
       <ThemeProvider>
         <MessageProvider>
           <AuthProvider>
-            <Loading>
-              <BrowserRouter>
-                <Navegation />
-              </BrowserRouter>
-            </Loading>
+            <AdminProvider>
+              <Loading>{children}</Loading>
+            </AdminProvider>
           </AuthProvider>
         </MessageProvider>
       </ThemeProvider>

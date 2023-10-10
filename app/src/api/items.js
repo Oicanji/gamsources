@@ -14,8 +14,22 @@ function get(
     )
 }
 
+function deleteItem(
+    id,
+    auth_token
+){
+    return axios.delete(
+        ITEM_ROUTE+"/delete?id="+id, {
+            headers: {
+                Authorization: "Bearer " + auth_token
+            }
+        }
+    )
+}
+
 const apiItems = {
-    get
+    get,
+    delete: deleteItem
 }
 
 export default apiItems;

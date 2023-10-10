@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import apiUser from "../api/user";
+import { useLocation } from "react-router";
 
 export const AuthContext = createContext({
   auth: null,
@@ -9,15 +10,24 @@ export const AuthContext = createContext({
   isAuth: null,
   setTokens: () => {},
   refreshSession: () => {},
+  isAdm: false,
+  setIsAdm: () => {},
+  user: {},
+  setUser: () => {},
 });
 
 export function AuthProvider({ children }) {
-  const [auth, setAuth] = useState();
-  const [refresh, setRefresh] = useState();
+  const [auth, setAuth] = useState(null);
+  const [refresh, setRefresh] = useState(null);
 
   const [isAuth, setIsAuth] = useState(false);
+  const [isAdm, setIsAdm] = useState(false);
 
-  const setTokens = (authToken, refreshToken) => {
+  const [user, setUser] = useState({});
+
+  const { pathname } = useLocation();
+
+  const setTokens = (authToken, refreshToken, isAdm, thisUser) => {
     localStorage.setItem(
       "tokens",
       JSON.stringify({
@@ -28,14 +38,19 @@ export function AuthProvider({ children }) {
 
     setAuth(authToken);
     setRefresh(refreshToken);
+    setIsAdm(isAdm);
+    setUser(thisUser);
 
     localStorage.setItem("lastRequest", new Date().getTime());
-
-    setIsAuth(true);
+    setIsAuth(authToken ? true : false);
+    if(authToken === undefined) removeTokens();
   };
 
   const removeTokens = () => {
     localStorage.removeItem("tokens");
+
+    console.log(pathname);
+    if (pathname != "/") navigation.navigate("/");
   };
 
   const refreshSession = async () => {
@@ -43,23 +58,25 @@ export function AuthProvider({ children }) {
     const now = new Date().getTime();
     const diff = now - lastRequest;
 
-    console.log(diff);
-
     if (diff < 3600000) {
       return;
     }
 
-    console.log("refreshing");
-
     try {
       const res = await apiUser.refresh(refresh);
-
-      setIsAuth(true);
-
-      setTokens(res.data.access_token, refresh);
+      setTokens(
+        res.data.access_token,
+        refresh,
+        res.data.is_admin,
+        res.data.user
+      );
     } catch (error) {
       setIsAuth(false);
+      setIsAdm(false);
       removeTokens();
+
+
+
       console.error(error);
     }
   };
@@ -71,10 +88,12 @@ export function AuthProvider({ children }) {
 
       try {
         const res = await apiUser.refresh(tokensParsed.refresh);
-
-        setIsAuth(true);
-
-        setTokens(res.data.access_token, tokensParsed.refresh);
+        setTokens(
+          res.data.access_token,
+          tokensParsed.refresh,
+          res.data.is_admin,
+          res.data.user
+        );
         localStorage.setItem("lastRequest", new Date().getTime());
       } catch (error) {
         setIsAuth(false);
@@ -91,9 +110,10 @@ export function AuthProvider({ children }) {
       getStorageTokens();
     }
 
+    refreshSession();
     setInterval(() => {
       refreshSession();
-    }, 3605000);
+    }, 1600000);
   }, [getStorageTokens]);
 
   return (
@@ -106,6 +126,10 @@ export function AuthProvider({ children }) {
         isAuth,
         setTokens,
         refreshSession,
+        isAdm,
+        setIsAdm,
+        user,
+        setUser,
       }}
     >
       {children}
