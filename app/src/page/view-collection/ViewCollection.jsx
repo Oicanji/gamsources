@@ -18,7 +18,7 @@ const ViewEditCollection = () => {
     >
       <Announcement />
       <TopMenu />
-      <div className="container-search">Search</div>
+      <div className="container-search">View collection</div>
     </div>
   );
 };

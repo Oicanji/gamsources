@@ -14,6 +14,7 @@ from datetime import datetime
 
 
 def allowed_file(filename, allowed_extensions):
+    print("Allowed file method called", filename, allowed_extensions)
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 
@@ -55,10 +56,10 @@ def add_item(name, file, ref, is_ia, sensitive_content, type, source, attr, extr
         if type in ['sprite', 'image']:
             ref = file_save(
                 file, ALLOWED_IMAGE_EXTENSIONS, UPLOAD_FOLDER_IMAGES)
-        elif type in ['effect', 'audio', 'music']:
+        elif type in ['sound', 'voiced', 'music']:
             ref = file_save(
                 file, ALLOWED_AUDIO_EXTENSIONS, UPLOAD_FOLDER_AUDIO)
-        elif type in ['script', 'text']:
+        elif type in ['script', 'text', 'code']:
             ref = file_save(
                 file, ALLOWED_TEXT_EXTENSIONS, UPLOAD_FOLDER_TEXT)
 
@@ -167,16 +168,18 @@ def get_items_from_tags(tags_id, limit=25, offset=0, order_by='id', order='asc',
     return query.limit(limit).offset(offset).all()
 
 
-def update_item(id, name, file, ref, is_ia, type, source, attr, extra, credits_id):
+def update_item(id, name, file, ref, is_ia, sensitive_content, type, source, attr, extra, credits_id):
     item = Item.query.filter_by(id=id).first()
 
     item.name = name if name is not None else item.name
-    item.is_ia = is_ia if is_ia is not None else item.is_ia
     item.type = type if type is not None else item.type
     item.source = source if source is not None else item.source
     item.attr = attr if attr is not None else item.attr
     item.extra = extra if extra is not None else item.extra
     item.credits_id = credits_id if credits_id is not None else item.credits_id
+    
+    item.is_ia = is_ia if is_ia is not None else item.is_ia
+    item.sensitive_content = sensitive_content if sensitive_content is not None else item.sensitive_content
     
     if ref is None:
         if item.type in ['sprite', 'image']:

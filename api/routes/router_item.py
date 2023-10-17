@@ -163,19 +163,22 @@ def update():
 
         name = request.form.get('name', None)
         ref = request.form.get('ref', None)
-        is_ia = request.form.get('is_ia', None)
         type = request.form.get('type', None)
         source = request.form.get('source', None)
         attr = request.form.get('attr', None)
         extra = request.form.get('extra', None)
         credits_id = request.form.get('credits_id', None)
         
+        is_ia = request.form.get('is_ia') == 'true'
+        sensitive_content = request.form.get('sensitive_content') == 'true'
+        
         file = request.files.get('file', None)
+        
         # valides if file size
         if file.content_length > MAX_FILE_SIZE:
             return jsonify({"msg": "File too large. Max "+str(MAX_FILE_SIZE)+"mb."}), 400
 
-        res = update_item(item_id, name, file, ref, is_ia, type,
+        res = update_item(item_id, name, file, ref, is_ia, sensitive_content, type,
                           source, attr, extra, credits_id)
 
         return jsonify({"msg": "Item updated successfully.", "item": object_to_dict(res)}), 200

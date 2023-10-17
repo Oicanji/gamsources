@@ -16,10 +16,6 @@ export function SearchBar() {
     setHideSensitiveContent,
   } = useContext(SearchContext);
 
-  useEffect(() => {
-    console.log(hideSensitiveContent);
-  }, [hideSensitiveContent]);
-
   const { thisTheme } = useContext(ThemeContext);
 
   return (

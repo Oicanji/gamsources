@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -7,9 +7,17 @@ app.config.from_object('config')
 CORS(app, origins="*")
 
     
-@app.route('/')
-def home():
-    return ("Hello World!")
+@app.route('/storage/images/<path:filename>')
+def serve_image(filename):
+    return send_from_directory('storage/images/', filename)
+
+@app.route('/storage/audio/<path:filename>')
+def serve_audio(filename):
+    return send_from_directory('storage/audio/', filename)
+
+@app.route('/storage/text/<path:filename>')
+def serve_text(filename):
+    return send_from_directory('storage/text/', filename)
 
 # Routes
 from routes.router_user import user_blueprint  

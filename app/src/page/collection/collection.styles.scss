@@ -1,0 +1,49 @@
+.card-add{
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        transition: all 0.3s ease-in-out;
+        
+        transform: scale(1.03);
+    }
+}
+
+.script-file{
+    height: 250px;
+
+    // transparent slide bar
+    &::-webkit-scrollbar {
+    width: 1em;
+    }
+    
+    &::-webkit-scrollbar-track {
+    background-color: rgb(19, 19, 19);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+    }
+}
+
+.card-new-item{
+    position: relative;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    .status-item{
+        position: absolute;
+        top: 2px;
+        right: 8px;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .image-preview{
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+
+        max-width: 100%;
+    }
+}

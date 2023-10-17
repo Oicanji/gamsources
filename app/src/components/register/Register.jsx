@@ -118,7 +118,7 @@ export function Register() {
     setConfirmLoading(false);
     setModalText(innerForm);
 
-    if (res.status === 200) {
+    if (res.status == 200 || res.status == 201) {
       message.success("Register successfully!");
     } else {
       message.error("Register failed!");

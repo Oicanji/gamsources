@@ -1,5 +1,10 @@
 .card-item{
     position: relative;
+    padding: 8px;
+    border-radius: 12px;
+    border-width: 1px;
+    width: 300px;
+
     .card-item-actions{
         position: absolute;
         top: -12.5px;
@@ -47,5 +52,66 @@
                 opacity: 0.3;
             }
         }
+    }
+
+    
+    .canvas-file{
+        position: relative;
+
+        height: 300px;
+
+        .card-item-image{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-height: 300px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card-item-audio{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-height: 300px;
+            width: 100%;
+        }
+        
+        .card-item-text{
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+        }
+    }
+
+    .canvas-search-utils{
+        position: relative;
+        height: 0px;
+
+        .canvas-search-utils-items{
+            position: absolute;
+
+            top: -13px;
+            right: 0;
+
+            display: flex;
+
+            font-size: 20px;
+
+            .item-sensitive{
+                margin-left: 10px;
+                margin-top: 3px;
+            }
+
+            .item-ai{
+                font-weight: bold;
+            }
+        }
+    }
+    .card-item-link{
+        margin-top: 10px;
+        text-decoration: underline;
     }
 }

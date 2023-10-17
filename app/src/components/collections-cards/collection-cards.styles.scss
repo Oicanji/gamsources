@@ -1,0 +1,14 @@
+.card-collection{
+    position: relative;
+    padding: 8px;
+    border-radius: 12px;
+    border-width: 1px;
+    width: 300px;
+    border: 1px solid #000000;
+    padding: 20px;
+
+    .card-collection-link{
+        margin-top: 10px;
+        text-decoration: underline;
+    }
+}

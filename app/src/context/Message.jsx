@@ -52,22 +52,18 @@ export function MessageProvider({ children }) {
   };
 
   const catch_error = (err, action) => {
-    if (!err.request.hasOwnProperty("response")) {
-      message.error("Server not responding!");
-    } else {
-      var error = err.request.response;
-      error = JSON.parse(error);
+    var error = err.request.response;
+    error = JSON.parse(error);
 
-      message.error(
-        error
-          ? error.hasOwnProperty("error")
-            ? error.error
-            : error.hasOwnProperty("msg")
-            ? error.msg
-            : action + " failed!"
+    message.error(
+      error
+        ? error.hasOwnProperty("error")
+          ? error.error
+          : error.hasOwnProperty("msg")
+          ? error.msg
           : action + " failed!"
-      );
-    }
+        : action + " failed!"
+    );
   };
 
   const message = {

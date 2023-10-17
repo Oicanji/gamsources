@@ -1,19 +1,21 @@
-import * as React from "react";
 import {
-  Routes,
   Route,
-  useNavigation,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Home from "./home/Home";
-import AddCollection from "./add-collection/AddCollection";
-import AddSocial from "./add-social/AddSocial";
-import AddTag from "./add-tag/AddTag";
-import Profile from "./profile/Profile";
-import Search from "./search/Search";
-import ViewEditCollection from "./view-edit-collection/ViewEditCollection";
-import App from "../App";
+
+import { Suspense, lazy } from "react";
+
+const Home = lazy(() => import("./home/Home"));
+const Collection = lazy(() => import("./collection/Collection"));
+const AddSocial = lazy(() => import("./add-social/AddSocial"));
+const AddTag = lazy(() => import("./add-tag/AddTag"));
+const Profile = lazy(() => import("./profile/Profile"));
+const Search = lazy(() => import("./search/Search"));
+const ViewCollection = lazy(() => import("./view-collection/ViewCollection"));
+const App = lazy(() => import("../App"));
+const Terms = lazy(() => import("./terms/Terms"));
+const NotFound = lazy(() => import("./not-found/NotFound"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +24,9 @@ const router = createBrowserRouter(
         path="/"
         element={
           <App>
-            <Home />
+            <Suspense>
+              <Home />
+            </Suspense>
           </App>
         }
       ></Route>
@@ -30,7 +34,9 @@ const router = createBrowserRouter(
         path="/profile"
         element={
           <App>
-            <Profile />
+            <Suspense>
+              <Profile />
+            </Suspense>
           </App>
         }
       ></Route>
@@ -43,18 +49,22 @@ const router = createBrowserRouter(
         }
       ></Route>
       <Route
-        path="/collection"
+        path="/collection-view"
         element={
           <App>
-            <ViewEditCollection />
+            <Suspense>
+              <ViewCollection />
+            </Suspense>
           </App>
         }
       ></Route>
       <Route
-        path="/collection/add"
+        path="/collection/:id"
         element={
           <App>
-            <AddCollection />
+            <Suspense>
+              <Collection />
+            </Suspense>
           </App>
         }
       ></Route>
@@ -62,7 +72,9 @@ const router = createBrowserRouter(
         path="/social/add"
         element={
           <App>
-            <AddSocial />
+            <Suspense>
+              <AddSocial />
+            </Suspense>
           </App>
         }
       ></Route>
@@ -70,7 +82,30 @@ const router = createBrowserRouter(
         path="/tag/add"
         element={
           <App>
-            <AddTag />
+            <Suspense>
+              <AddTag />
+            </Suspense>
+          </App>
+        }
+      ></Route>
+      <Route
+        path="/terms"
+        element={
+          <App>
+            <Suspense>
+              <Terms />
+            </Suspense>
+          </App>
+        }
+      ></Route>
+
+      <Route
+        path="*"
+        element={
+          <App>
+            <Suspense>
+              <NotFound />
+            </Suspense>
           </App>
         }
       ></Route>

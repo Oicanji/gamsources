@@ -11,18 +11,32 @@ import {
   faTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { Divider, Menu } from "antd";
+import { useLocation, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 const menus = {
   "/": "home",
   "/search": "search",
-  "/collection": "collection",
-  "/collection/add": "collection-add",
+  "/collection-view": "collection-view",
+  "/collection/": "collection",
   "/profile": "profile",
   "/tag/add": "tag",
   "/social/add": "social",
 };
 
-export function MenuItems({ url, theme }) {
+export function MenuItems({ theme }) {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  // if path name have a /collection/ indepents to ID
+  const [url, setUrl] = useState(
+    pathname.includes("/collection/") ? "/collection/" : pathname
+  );
+
+  useEffect(() => {
+    setUrl(pathname.includes("/collection/") ? "/collection/" : pathname);
+  }, [pathname]);
+
   return (
     <Sider
       trigger={null}
@@ -74,7 +88,7 @@ export function MenuItems({ url, theme }) {
             label: "Home Page",
             onClick: () => {
               if (menus[url] === "home") return;
-              navigation.navigate("/");
+              navigate("/");
             },
           },
           {
@@ -83,25 +97,25 @@ export function MenuItems({ url, theme }) {
             label: "Search Page ",
             onClick: () => {
               if (menus[url] === "search") return;
-              navigation.navigate("/search");
+              navigate("/search");
+            },
+          },
+          {
+            key: "collection-view",
+            icon: <FontAwesomeIcon icon={faLayerGroup} />,
+            label: "Collection view",
+            onClick: () => {
+              if (menus[url] === "collection-view") return;
+              navigate("/collection-view");
             },
           },
           {
             key: "collection",
             icon: <FontAwesomeIcon icon={faLayerGroup} />,
-            label: "Collection view",
+            label: "Collection",
             onClick: () => {
               if (menus[url] === "collection") return;
-              navigation.navigate("/collection");
-            },
-          },
-          {
-            key: "collection-add",
-            icon: <FontAwesomeIcon icon={faLayerGroup} />,
-            label: "Collection add",
-            onClick: () => {
-              if (menus[url] === "collection-add") return;
-              navigation.navigate("/collection/add");
+              navigate("/collection/0");
             },
           },
           {
@@ -110,7 +124,7 @@ export function MenuItems({ url, theme }) {
             label: "My Profile",
             onClick: () => {
               if (menus[url] === "profile") return;
-              navigation.navigate("/profile");
+              navigate("/profile");
             },
           },
         ]}
@@ -131,7 +145,7 @@ export function MenuItems({ url, theme }) {
             label: "Tag add",
             onClick: () => {
               if (menus[url] === "tag") return;
-              navigation.navigate("/tag/add");
+              navigate("/tag/add");
             },
           },
           {
@@ -140,7 +154,7 @@ export function MenuItems({ url, theme }) {
             label: "Social add",
             onClick: () => {
               if (menus[url] === "social") return;
-              navigation.navigate("/social/add");
+              navigate("/social/add");
             },
           },
         ]}

@@ -1,1 +1,1 @@
-export const HOST = 'http://127.0.0.1:5050';
+export const HOST = import.meta.env.VITE_API;

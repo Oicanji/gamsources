@@ -95,6 +95,9 @@ export function Login({ children }) {
       await apiUser.logout(auth);
       message.success("Logoff successfully!");
       setTokens(null, null, false, {});
+      if (window.location.pathname != "/") {
+        window.location.pathname = "/";
+      }
     } catch (err) {
       message.catch(err, "Logoff");
     }

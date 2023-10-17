@@ -102,6 +102,15 @@ const darkTheme = {
     colorPrimaryBorderHover: "#40e39e",
     colorPrimaryHover: "#25d98d",
 
+    colorError: "#d7191c",
+
+    colorErrorActive: "#d9363e",
+    colorErrorBg: "#fff2f0",
+    colorErrorBgHover: "#fff1f0",
+    colorErrorBorder: "#ffccc7",
+    colorErrorBorderHover: "#ffa39e",
+    colorErrorHover: "#ff7875",
+
     colorBgBase: "#191919",
     colorBgContainer: "#191919",
     colorBgLayout: "#101010",

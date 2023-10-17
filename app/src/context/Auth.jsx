@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import apiUser from "../api/user";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export const AuthContext = createContext({
   auth: null,
@@ -17,6 +17,8 @@ export const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
+  const { pathname } = useLocation();
+
   const [auth, setAuth] = useState(null);
   const [refresh, setRefresh] = useState(null);
 
@@ -24,8 +26,7 @@ export function AuthProvider({ children }) {
   const [isAdm, setIsAdm] = useState(false);
 
   const [user, setUser] = useState({});
-
-  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const setTokens = (authToken, refreshToken, isAdm, thisUser) => {
     localStorage.setItem(
@@ -43,14 +44,12 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem("lastRequest", new Date().getTime());
     setIsAuth(authToken ? true : false);
-    if(authToken === undefined) removeTokens();
+    if (authToken === undefined) removeTokens();
   };
 
   const removeTokens = () => {
     localStorage.removeItem("tokens");
-
-    console.log(pathname);
-    if (pathname != "/") navigation.navigate("/");
+    if (pathname != "/") navigate("/");
   };
 
   const refreshSession = async () => {
@@ -58,9 +57,7 @@ export function AuthProvider({ children }) {
     const now = new Date().getTime();
     const diff = now - lastRequest;
 
-    if (diff < 3600000) {
-      return;
-    }
+    if (diff < 1600000) return;
 
     try {
       const res = await apiUser.refresh(refresh);
@@ -74,8 +71,6 @@ export function AuthProvider({ children }) {
       setIsAuth(false);
       setIsAdm(false);
       removeTokens();
-
-
 
       console.error(error);
     }
@@ -106,15 +101,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!auth && !refresh) {
-      getStorageTokens();
-    }
+    if (auth != null && refresh != null) return;
+
+    getStorageTokens();
 
     refreshSession();
     setInterval(() => {
       refreshSession();
     }, 1600000);
-  }, [getStorageTokens]);
+  }, []);
 
   return (
     <AuthContext.Provider

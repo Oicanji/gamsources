@@ -25,6 +25,9 @@ def get_collection(id):
     console.log("Get collection method called")
 
     collection = Collection.query.filter_by(id=id).first()
+    if not collection:
+        raise Exception("Collection not found.")
+    
     items_in_collection = Item.query.filter_by(collection_id=id).all()
 
     items = []
@@ -81,8 +84,11 @@ def edit_collection(data):
 
     collection = Collection.query.filter_by(id=data.get('id')).first()
 
-    collection.name = data.get('name')
-    collection.contains = data.get('contains')
+    if data.get('name'):
+        collection.name = data.get('name')
+
+    if data.get('contains'):
+        collection.contains = data.get('contains')
 
     db.session.commit()
 

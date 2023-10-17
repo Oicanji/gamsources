@@ -5,9 +5,11 @@ import { ButtonTheme } from "../button-theme/ButtonTheme";
 import { ButtonUser } from "../button-user/ButtonUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 export function TopMenu() {
   const { thisTheme } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   return (
     <Row
@@ -26,7 +28,7 @@ export function TopMenu() {
               color: thisTheme.token.colorPrimary,
               fontSize: "1.2rem",
             }}
-            onClick={() => navigation.navigate("/")}
+            onClick={() => navigate("/")}
           >
             <FontAwesomeIcon icon={faReply} />{" "}
             <span style={{ marginLeft: "0.8rem" }}>Back</span>
