@@ -1,4 +1,4 @@
-import { Card, Form } from "antd";
+import { Card, Form, Input } from "antd";
 import { useContext, useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,9 @@ import { extensionsConvert, extensionsSupports } from "../../types/items";
 import apiItems from "../../api/items";
 import { ItemForm } from "./ItemForm";
 
+import "./collection-item-form.styles.scss";
+import { ThemeContext } from "../../context/Theme";
+
 export function CollectionItemForm({
   collection,
   items,
@@ -23,6 +26,7 @@ export function CollectionItemForm({
   const [collectionForm] = Form.useForm();
   const { message } = useContext(MessageContext);
   const { auth } = useContext(AuthContext);
+  const { thisTheme } = useContext(ThemeContext);
   const [newItems, setNewItems] = useState([]);
 
   const saveNewItems = async () => {
@@ -128,7 +132,11 @@ export function CollectionItemForm({
   };
 
   const cardAdd = (
-    <>
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
       <Card
         className="card-add"
         size="small"
@@ -168,7 +176,32 @@ export function CollectionItemForm({
           </p>
         </Dragger>
       </Card>
-    </>
+      <div
+        className="or-div"
+        style={{
+          backgroundColor: thisTheme.token.colorBgContainer,
+          border: `1px solid ${thisTheme.token.colorBorderSecondary}`,
+        }}
+      >
+        OR
+      </div>
+      <div
+        className="link-div"
+        style={{
+          backgroundColor: thisTheme.token.colorBgContainer,
+          border: `1px solid ${thisTheme.token.colorBorderSecondary}`,
+        }}
+      >
+        <Form.Item name="link" label="Link of image">
+          <Input
+            placeholder="https://www..."
+            style={{
+              border: `1px solid ${thisTheme.token.colorPrimary}`,
+            }}
+          />
+        </Form.Item>
+      </div>
+    </div>
   );
 
   return (
@@ -197,7 +230,7 @@ export function CollectionItemForm({
       </div>
       <Form
         form={collectionForm}
-        layout="vertical"
+        layout="horizontal"
         style={{ width: "100%", padding: "5px 15px" }}
       >
         {cardAdd}

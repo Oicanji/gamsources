@@ -24,7 +24,7 @@ import { attrNames, extraNames, typesFiles } from "../../types/items";
 import { useParams } from "react-router";
 import { ScriptFile } from "../../components/script-file/ScriptFile";
 
-export function NewItemForm({ item, key, rewriteItem }) {
+export function NewItemForm({ item, key, rewriteNewItem }) {
   const { thisTheme } = useContext(ThemeContext);
   const [itemForm] = Form.useForm();
   const { id } = useParams();
@@ -37,7 +37,7 @@ export function NewItemForm({ item, key, rewriteItem }) {
   const changeItem = () => {
     const values = itemForm.getFieldsValue();
 
-    rewriteItem(item.id, {
+    rewriteNewItem(item.id, {
       ...item,
       name: values.name ? values.name : null,
       sensitive_content: values.sensitive ? values.sensitive : false,

@@ -26,13 +26,10 @@ const Profile = () => {
     try {
       const res = await apiCollections.me(offset, limit, auth);
       if (res.data.collections.length == 0) {
-        console.log("aaaaa");
         setHaveMore(false);
       } else {
         var response = res.data.collections;
-        console.log(response);
         response.pop();
-        console.log(response);
         setMyCollections([...myCollections, ...response]);
         setHaveMore(true);
         setOffset(offset + limit);

@@ -68,6 +68,10 @@
             max-height: 300px;
             width: 100%;
             border-radius: 10px;
+            
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
         }
 
         .card-item-audio{
